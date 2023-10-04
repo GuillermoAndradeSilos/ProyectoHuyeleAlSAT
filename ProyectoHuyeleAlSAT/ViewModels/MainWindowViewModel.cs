@@ -28,7 +28,7 @@ namespace ProyectoHuyeleAlSAT.ViewModels
             GenerarCommand = new RelayCommand(GenerarMapa);
             //ResolverCommand = new RelayCommand(Resolver);
             timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += (sender, e) => Resolver(null, jugador);
+            timer.Tick += (sender, e) => Resolver(Enemigos[0], jugador);
         }
         //Movimiento enemigo
         private async void Resolver(Nodo enem, Nodo juga)
@@ -80,8 +80,8 @@ namespace ProyectoHuyeleAlSAT.ViewModels
             {
                 int fila = r.Next(filas);
                 int columna = r.Next(columnas);
-                cuadritos[columna, fila].Fill
-                    = Brushes.DarkSlateGray;
+                //Aqui se definen los obstaculos, el fondo es un color x
+                cuadritos[columna, fila].Fill = Brushes.DarkSlateGray;
                 Nodo.Tablero[columna, fila] = true;
             }
             jugador = new Nodo();
@@ -94,14 +94,17 @@ namespace ProyectoHuyeleAlSAT.ViewModels
             } while (Nodo.Tablero[jugador.Col, jugador.Ren]);
 
             Enemigos = new List<Nodo>();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 1; i++)
             {
                 int fila = r.Next(filas);
                 int columna = r.Next(columnas);
                 Enemigos.Add(new Nodo { Col = columna, Ren = fila });
+                //Aqui se define que son los enemigos, esto es el color
                 cuadritos[Enemigos[i].Col, Enemigos[i].Ren].Fill = Brushes.Blue;
             }
+            //Jugador
             cuadritos[jugador.Col, jugador.Ren].Fill = Brushes.Green;
+
             timer.Start();
         }
     }

@@ -13,11 +13,11 @@
     <DockPanel>
         <WrapPanel DockPanel.Dock="Top">
             <TextBlock Text="Filas"/>
-            <TextBox Focusable="False" x:Name="txtFilas" Text="10"/>
+            <TextBox Focusable="False" x:Name="txtFilas" Text="50"/>
             <TextBlock Text="Columnas"/>
-            <TextBox Focusable="False" x:Name="txtColumnas" Text="10"/>
+            <TextBox Focusable="False" x:Name="txtColumnas" Text="50"/>
             <TextBlock Text="Obstáculos"/>
-            <TextBox Focusable="False" Text="30" x:Name="txtObstaculos"/>
+            <TextBox Focusable="False" Text="100" x:Name="txtObstaculos"/>
             <Button Content="Generar" x:Name="btnGenerar" Command="{Binding GenerarCommand}"/>
             <TextBlock x:Name="txtVictoria" Text=""/>
             <!--<Button x:Name="btnResolver" Command="{Binding ResolverCommand}">Resolver</Button>-->
