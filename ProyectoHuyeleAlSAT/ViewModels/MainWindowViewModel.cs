@@ -21,14 +21,12 @@ namespace ProyectoHuyeleAlSAT.ViewModels
         public Nodo jugador;
         public ICommand GenerarCommand { get; set; }
         //public ICommand ResolverCommand { get; set; }
-        DispatcherTimer timer = new DispatcherTimer();
+        List<DispatcherTimer> timer = new List<DispatcherTimer>();
         MainWindow mw = (MainWindow)Application.Current.MainWindow;
         public MainWindowViewModel()
         {
             GenerarCommand = new RelayCommand(GenerarMapa);
             //ResolverCommand = new RelayCommand(Resolver);
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += (sender, e) => Resolver(Enemigos[0], jugador);
         }
         //Movimiento enemigo
         private async void Resolver(Nodo enem, Nodo juga)
@@ -49,12 +47,20 @@ namespace ProyectoHuyeleAlSAT.ViewModels
             if (enem.Col == juga.Col && enem.Ren == juga.Ren)
             {
                 mw.txtVictoria.Text = "Se ACABO ESTA FREGADERA";
-                timer.Stop();
+                foreach (var item in timer)
+                {
+                    item.Stop();
+                }
+                timer.Clear();
             }
         }
         private void GenerarMapa()
         {
-            timer.Stop();
+            foreach (var item in timer)
+            {
+                item.Stop();
+            }
+            timer.Clear();
             mw.tablero.Children.Clear();
             mw.txtVictoria.Text = "";
             int filas = int.Parse(mw.txtFilas.Text);
@@ -101,11 +107,17 @@ namespace ProyectoHuyeleAlSAT.ViewModels
                 Enemigos.Add(new Nodo { Col = columna, Ren = fila });
                 //Aqui se define que son los enemigos, esto es el color
                 cuadritos[Enemigos[i].Col, Enemigos[i].Ren].Fill = Brushes.Blue;
+                var timner = new DispatcherTimer();
+                timner.Interval = TimeSpan.FromSeconds(1);
+                timner.Tick += (sender, e) => Resolver(Enemigos[0], jugador);
+                timer.Add(timner);
+            }
+            foreach (var item in timer)
+            {
+                item.Start();
             }
             //Jugador
             cuadritos[jugador.Col, jugador.Ren].Fill = Brushes.Green;
-
-            timer.Start();
         }
     }
 }
