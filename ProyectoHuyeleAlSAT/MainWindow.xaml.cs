@@ -28,6 +28,7 @@ namespace ProyectoHuyeleAlSAT
         {
             InitializeComponent();
             vm = (MainWindowViewModel)this.DataContext;
+            vm.GenerarMapa();
         }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {

@@ -54,7 +54,7 @@ namespace ProyectoHuyeleAlSAT.ViewModels
                 timer.Clear();
             }
         }
-        private void GenerarMapa()
+        public void GenerarMapa()
         {
             foreach (var item in timer)
             {
@@ -63,9 +63,12 @@ namespace ProyectoHuyeleAlSAT.ViewModels
             timer.Clear();
             mw.tablero.Children.Clear();
             mw.txtVictoria.Text = "";
-            int filas = int.Parse(mw.txtFilas.Text);
-            int columnas = int.Parse(mw.txtColumnas.Text);
-            int obstaculos = int.Parse(mw.txtObstaculos.Text);
+            //int filas = int.Parse(mw.txtFilas.Text);
+            //int columnas = int.Parse(mw.txtColumnas.Text);
+            //int obstaculos = int.Parse(mw.txtObstaculos.Text);
+            int filas = 10;
+            int columnas = 10;
+            int obstaculos = 30;
             mw.tablero.Rows = filas;
             mw.tablero.Columns = columnas;
             cuadritos = new Rectangle[columnas, filas];
@@ -100,21 +103,22 @@ namespace ProyectoHuyeleAlSAT.ViewModels
             } while (Nodo.Tablero[jugador.Col, jugador.Ren]);
 
             Enemigos = new List<Nodo>();
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 3; i++)
             {
                 int fila = r.Next(filas);
                 int columna = r.Next(columnas);
                 Enemigos.Add(new Nodo { Col = columna, Ren = fila });
                 //Aqui se define que son los enemigos, esto es el color
                 cuadritos[Enemigos[i].Col, Enemigos[i].Ren].Fill = Brushes.Blue;
-                var timner = new DispatcherTimer();
-                timner.Interval = TimeSpan.FromSeconds(1);
-                timner.Tick += (sender, e) => Resolver(Enemigos[0], jugador);
-                timer.Add(timner);
             }
-            foreach (var item in timer)
+            foreach (var item in Enemigos)
             {
-                item.Start();
+                var timner = new DispatcherTimer();
+                Random re = new Random();
+                timner.Interval = TimeSpan.FromSeconds(re.Next(1, 4));
+                timner.Tick += (sender, e) => Resolver(item, jugador);
+                timer.Add(timner);
+                timner.Start();
             }
             //Jugador
             cuadritos[jugador.Col, jugador.Ren].Fill = Brushes.Green;
